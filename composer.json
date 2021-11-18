@@ -1,0 +1,20 @@
+{
+  "name": "rubin/ddd-pricing",
+  "description": "DDD aircraft pricing classes",
+  "keywords": ["rubin", "ddd", "domain", "pricing"],
+  "type": "library",
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.4.0",
+    "rubin/ddd-domain": "^1.0",
+    "unapi/helper-money": "^1.0",
+    "rubin/enum": "^1.01",
+    "psr/log": "^1.1",
+    "rubin/ddd-aviation": "^1.0"
+  },
+  "autoload" : {
+    "psr-4": {
+      "ddd\\pricing\\": "src"
+    }
+  }
+}
