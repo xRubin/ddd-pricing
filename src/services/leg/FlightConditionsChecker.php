@@ -35,7 +35,7 @@ final class FlightConditionsChecker extends Component implements LoggerAwareInte
 
     public function checkCalculatorConditions(FlightDecomposition $flight, AircraftPricingCalculator $calculator): bool
     {
-        $this->logger->info('Checking calculator', [
+        $this->logger->info('Checking calculator {calculator}', [
             'method' => __METHOD__,
             'calculator' => $calculator->getProperties()->getName()->getValue(),
         ]);
@@ -45,7 +45,7 @@ final class FlightConditionsChecker extends Component implements LoggerAwareInte
                 throw new AircraftPricingCalculationException('Unknown condition: ' . $condition);
 
             if (!$this->conditions[$condition]->isSatisfiedBy($value, $flight)) {
-                $this->logger->info('Calculator declined', [
+                $this->logger->info('Calculator {calculator} declined', [
                     'method' => __METHOD__,
                     'calculator' => $calculator->getProperties()->getName()->getValue(),
                     'condition' => $condition . ' (' . $value . ')'
@@ -54,7 +54,7 @@ final class FlightConditionsChecker extends Component implements LoggerAwareInte
             }
         }
 
-        $this->logger->info('Calculator approved', [
+        $this->logger->info('Calculator {calculator} approved', [
             'method' => __METHOD__,
             'calculator' => $calculator->getProperties()->getName()->getValue(),
         ]);

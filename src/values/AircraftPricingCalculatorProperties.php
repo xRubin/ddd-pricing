@@ -15,6 +15,8 @@ final class AircraftPricingCalculatorProperties
     private AircraftPricingCalculatorRound $round;
     private MoneyAmount $price;
 
+    private ?AircraftPricingID $aircraftPricingId = null;
+
     public function __construct(AircraftPricingCalculatorType $type, AircraftPricingCalculatorName $name, array $conditions, array $filters, AircraftPricingCalculatorUnit $unit, AircraftPricingCalculatorTax $tax, AircraftPricingCalculatorRound $round, MoneyAmount $price)
     {
         $this->type = $type;
@@ -89,5 +91,21 @@ final class AircraftPricingCalculatorProperties
     public function getPrice(): MoneyAmount
     {
         return $this->price;
+    }
+
+    /**
+     * @return AircraftPricingID|null
+     */
+    public function getAircraftPricingId(): ?AircraftPricingID
+    {
+        return $this->aircraftPricingId;
+    }
+
+    /**
+     * @param AircraftPricingID|null $aircraftPricingId
+     */
+    public function setAircraftPricingId(?AircraftPricingID $aircraftPricingId): void
+    {
+        $this->aircraftPricingId = $aircraftPricingId;
     }
 }
