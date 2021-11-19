@@ -103,9 +103,11 @@ final class AircraftPricingCalculatorProperties
 
     /**
      * @param AircraftPricingID|null $aircraftPricingId
+     * @return self
      */
-    public function setAircraftPricingId(?AircraftPricingID $aircraftPricingId): void
+    public function setAircraftPricingId(?AircraftPricingID $aircraftPricingId): self
     {
         $this->aircraftPricingId = $aircraftPricingId;
+        return $this;
     }
 }
