@@ -15,7 +15,7 @@ final class AircraftPricingCalculatorProperties
     private AircraftPricingCalculatorRound $round;
     private MoneyAmount $price;
 
-    private ?AircraftPricingID $aircraftPricingId = null;
+    private ?AircraftPricingProfileID $aircraftPricingProfileID = null;
 
     public function __construct(AircraftPricingCalculatorType $type, AircraftPricingCalculatorName $name, array $conditions, array $filters, AircraftPricingCalculatorUnit $unit, AircraftPricingCalculatorTax $tax, AircraftPricingCalculatorRound $round, MoneyAmount $price)
     {
@@ -94,20 +94,20 @@ final class AircraftPricingCalculatorProperties
     }
 
     /**
-     * @return AircraftPricingID|null
+     * @return AircraftPricingProfileID|null
      */
-    public function getAircraftPricingId(): ?AircraftPricingID
+    public function getAircraftPricingProfileID(): ?AircraftPricingProfileID
     {
-        return $this->aircraftPricingId;
+        return $this->aircraftPricingProfileID;
     }
 
     /**
-     * @param AircraftPricingID|null $aircraftPricingId
-     * @return self
+     * @param AircraftPricingProfileID|null $aircraftPricingProfileID
+     * @return AircraftPricingCalculatorProperties
      */
-    public function setAircraftPricingId(?AircraftPricingID $aircraftPricingId): self
+    public function setAircraftPricingProfileID(?AircraftPricingProfileID $aircraftPricingProfileID): AircraftPricingCalculatorProperties
     {
-        $this->aircraftPricingId = $aircraftPricingId;
+        $this->aircraftPricingProfileID = $aircraftPricingProfileID;
         return $this;
     }
 }
