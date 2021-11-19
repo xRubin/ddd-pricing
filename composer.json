@@ -10,7 +10,7 @@
     "unapi/helper-money": "^1.0",
     "rubin/enum": "^1.01",
     "psr/log": "^1.1",
-    "rubin/ddd-aviation": "^1.0"
+    "rubin/ddd-aviation": "^1.0.7"
   },
   "autoload" : {
     "psr-4": {
