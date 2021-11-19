@@ -7,6 +7,7 @@ use ddd\pricing\interfaces\AircraftPricingHelperInterface;
 use ddd\pricing\services\trip\TripUnitExtractor;
 use ddd\pricing\values;
 use ddd\aviation\aggregates\TripDecomposition;
+use ddd\pricing\values\AircraftPricingCalculatorType;
 use unapi\helper\money\Currency;
 
 final class TripCalculatorService
@@ -17,10 +18,10 @@ final class TripCalculatorService
     private AircraftPricingHelperInterface $helper;
 
     public function __construct(
-        FlightCalculatorService $flightCalculatorService,
-        TripUnitExtractor $unitExtractor,
+        FlightCalculatorService               $flightCalculatorService,
+        TripUnitExtractor                     $unitExtractor,
         AircraftPricingCalculatorRoundService $roundService,
-        AircraftPricingHelperInterface $helper
+        AircraftPricingHelperInterface        $helper
     )
     {
         $this->flightCalculatorService = $flightCalculatorService;
@@ -116,26 +117,27 @@ final class TripCalculatorService
         return (new DetailedPrice(floor($legsPrice + $tripPrice + $taxPrice), new Currency(Currency::EUR)))
             ->setDetails($details);
     }
-/*
-    private function getActualCalculators(TripDecomposition $trip): \Generator
-    {
-        $flights = $trip->getFlights();
-        $firstFlight = reset($flights);
-        $lastFlight = end($flights);
-        $tripConditions = new values\AircraftPricingTripConditions($trip->isOneway());
 
-        foreach ($this->aircraftPricingRepository->allByAircraftId($trip->getAircraft()->getId()) as $pricing) {
-            if ($pricing->getProperties()->getValidFrom() && $pricing->getProperties()->getValidTo())
-                if ($pricing->getProperties()->getValidFrom() < $lastFlight->getArrivalDate() && $pricing->getProperties()->getValidTo() > $firstFlight->getDepartureDate())
+    /*
+        private function getActualCalculators(TripDecomposition $trip): \Generator
+        {
+            $flights = $trip->getFlights();
+            $firstFlight = reset($flights);
+            $lastFlight = end($flights);
+            $tripConditions = new values\AircraftPricingTripConditions($trip->isOneway());
+
+            foreach ($this->aircraftPricingRepository->allByAircraftId($trip->getAircraft()->getId()) as $pricing) {
+                if ($pricing->getProperties()->getValidFrom() && $pricing->getProperties()->getValidTo())
+                    if ($pricing->getProperties()->getValidFrom() < $lastFlight->getArrivalDate() && $pricing->getProperties()->getValidTo() > $firstFlight->getDepartureDate())
+                        continue;
+
+                if (!$tripConditions->satisfiedBy($pricing->getProperties()->getConditions()))
                     continue;
 
-            if (!$tripConditions->satisfiedBy($pricing->getProperties()->getConditions()))
-                continue;
-
-            foreach ($this->aircraftPricingCalculatorRepository->allByAircraftPricingProfileId($pricing->getProperties()->getPricingProfileId()) as $calculator)
-                yield $calculator;
-        }
-    }*/
+                foreach ($this->aircraftPricingCalculatorRepository->allByAircraftPricingProfileId($pricing->getProperties()->getPricingProfileId()) as $calculator)
+                    yield $calculator;
+            }
+        }*/
 
     private function extractPrice(TripDecomposition $trip, AircraftPricingCalculator $calculator): float
     {
