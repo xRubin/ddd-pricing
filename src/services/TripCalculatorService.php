@@ -35,7 +35,6 @@ final class TripCalculatorService
         $details = ['flights' => [], 'trip' => [], 'tax' => []];
         $legsPrice = 0;
         $taxable = 0;
-        $tax = 0;
 
         $calculators = iterator_to_array($this->helper->getActualCalculators($trip));
         /** @var AircraftPricingCalculator[] $tripCalculators */
@@ -58,15 +57,11 @@ final class TripCalculatorService
                         $taxable += $price->getAmount();
                         break;
                     case values\AircraftPricingCalculatorTax::IS_TAX:
-                        $tax += $price->getAmount();
-                        $details['tax'][] = DetailedPrice::fromMoneyAmount($price)->setDetails(['calculator' => $legCalculator]);
+                        $details['tax'][] = DetailedPrice::fromMoneyAmount($price)->setDetails($legCalculator->jsonSerialize());
                         break;
                 }
 
-                $flightDetails['calculators'][] = [
-                    'calculator' => $legCalculator,
-                    'price' => $price->getAmount(),
-                ];
+                $flightDetails['calculators'][] = DetailedPrice::fromMoneyAmount($price)->setDetails($legCalculator->jsonSerialize());
                 $legPrice += $price->getAmount();
             }
             $legsPrice += $legPrice;
@@ -86,16 +81,11 @@ final class TripCalculatorService
                         $taxable += $amount;
                         break;
                     case values\AircraftPricingCalculatorTax::IS_TAX:
-                        $tax += $amount;
-                        $details['tax'][] = (new DetailedPrice($amount, new Currency(Currency::EUR)))->setDetails(['calculator' => $tripCalculator]);
+                        $details['tax'][] = (new DetailedPrice($amount, new Currency(Currency::EUR)))->setDetails($tripCalculator->jsonSerialize());
                         break;
                 }
 
-                $details['trip'][] = [
-                    'calculator' => $tripCalculator,
-                    'price' => $amount,
-                ];
-
+                $details['trip'][] = (new DetailedPrice($amount, new Currency(Currency::EUR)))->setDetails($tripCalculator->jsonSerialize());
                 return $initial + $amount;
             },
             0.0
@@ -103,19 +93,15 @@ final class TripCalculatorService
 
         $taxPrice = array_reduce(
             $taxCalculators,
-            function (float $initial, AircraftPricingCalculator $taxCalculator) use ($trip, &$details, &$taxable, &$tax) {
+            function (float $initial, AircraftPricingCalculator $taxCalculator) use ($trip, &$details, $taxable) {
                 $amount = $this->extractPrice($trip, $taxCalculator) * $taxable / 100;
-                $details['tax'][] = [
-                    'calculator' => $taxCalculator,
-                    'price' => $amount,
-                ];
+                $details['tax'][] = (new DetailedPrice($amount, new Currency(Currency::EUR)))->setDetails($taxCalculator->jsonSerialize());
                 return $initial + $amount;
             },
             0.0
         );
 
-        return (new DetailedPrice(floor($legsPrice + $tripPrice + $taxPrice), new Currency(Currency::EUR)))
-            ->setDetails($details);
+        return (new DetailedPrice(floor($legsPrice + $tripPrice + $taxPrice), new Currency(Currency::EUR)))->setDetails($details);
     }
 
     /*
