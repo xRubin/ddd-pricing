@@ -8,8 +8,11 @@ use Yii;
 
 trait AircraftPricingFormatterTrait
 {
-    public function asCalculatorConditions(array $conditions): string
+    public function asCalculatorConditions(?array $conditions = []): string
     {
+        if (empty($conditions))
+            return $this->nullDisplay;
+
         $result = '';
         foreach ($conditions as $name => $value) {
             $inverse = ArrayHelper::getValue($value, 'inverse', false);
@@ -61,8 +64,11 @@ trait AircraftPricingFormatterTrait
         return $result;
     }
 
-    public function asCalculatorFilters(array $filters): string
+    public function asCalculatorFilters(?array $filters = []): string
     {
+        if (empty($conditions))
+            return $this->nullDisplay;
+
         $result = '';
         foreach ($filters as $filter) {
             $result .= Html::tag('span', ucfirst($filter->unit) . ' ' . $filter->comparison . ' ' . $filter->value, ['class' => 'badge']);
