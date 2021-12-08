@@ -2,26 +2,9 @@
 
 namespace ddd\pricing\values;
 
-use ddd\domain\values\AbstractDomainValue;
+use ddd\uuid\values\UUID;
 
-final class AircraftPricingID extends AbstractDomainValue
+final class AircraftPricingID extends UUID
 {
-    private int $value;
 
-    /**
-     * AircraftPricingID constructor.
-     * @param int $value
-     */
-    public function __construct(int $value)
-    {
-        $this->value = $value;
-    }
-
-    /**
-     * @return int
-     */
-    public function getValue(): int
-    {
-        return $this->value;
-    }
 }
