@@ -66,7 +66,7 @@ trait AircraftPricingFormatterTrait
 
     public function asCalculatorFilters(?array $filters = []): string
     {
-        if (empty($conditions))
+        if (empty($filters))
             return $this->nullDisplay;
 
         $result = '';
