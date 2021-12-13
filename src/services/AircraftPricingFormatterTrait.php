@@ -71,7 +71,7 @@ trait AircraftPricingFormatterTrait
 
         $result = '';
         foreach ($filters as $filter) {
-            $result .= Html::tag('span', ucfirst($filter->unit) . ' ' . $filter->comparison . ' ' . $filter->value, ['class' => 'badge']);
+            $result .= Html::tag('span', ucfirst(ArrayHelper::getValue($filter, 'unit', '')) . ' ' . ArrayHelper::getValue($filter, 'comparison', '') . ' ' . ArrayHelper::getValue($filter, 'value', ''), ['class' => 'badge']);
         }
         return $result;
     }
