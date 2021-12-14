@@ -48,7 +48,7 @@ final class FlightConditionsChecker extends Component implements LoggerAwareInte
                 $this->logger->info('Calculator {calculator} declined', [
                     'method' => __METHOD__,
                     'calculator' => $calculator->getProperties()->getName()->getValue(),
-                    'condition' => $condition . ' (' . $value . ')'
+                    'condition' => $condition . ' (' . var_export($value, true) . ')'
                 ]);
                 return false;
             }
