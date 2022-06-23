@@ -10,6 +10,7 @@ use ddd\pricing\entities\AircraftPricingCalculator;
 use ddd\pricing\entities\AircraftPricingProfile;
 use ddd\pricing\interfaces\AircraftPricingProfileProxyServiceInterface;
 use ddd\pricing\values\AircraftPricingCalculatorProperties;
+use ddd\pricing\values\AircraftPricingProfileID;
 use ddd\pricing\values\AircraftPricingProfileName;
 use ddd\pricing\values\AircraftPricingProfileProperties;
 use GuzzleHttp\Client;
@@ -143,6 +144,28 @@ final class AircraftPricingProfileProxyService extends Component implements Airc
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
             throw new AircraftPricingProfileSavingException($e->getMessage(), 0, $e);
+        }
+    }
+
+    public function getProfile(AircraftPricingProfileID $id): AircraftPricingProfile
+    {
+        try {
+            $response = $this->client->request('get', '/profile/view', [
+                'query' => [
+                    'id' => $id->getValue(),
+                ]
+            ]);
+
+            $response->getBody()->rewind();
+            $data = json_decode($response->getBody()->getContents());
+
+            if ($response->getStatusCode() !== 200)
+                throw new \RuntimeException('PRICING_SERVICE_ERROR');
+
+            return $this->profileFabric->fromData($data);
+        } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage());
+            throw new AircraftPricingProfileNotFoundException($e->getMessage(), 0, $e);
         }
     }
 

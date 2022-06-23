@@ -8,7 +8,7 @@ final class FlightTtlExtractor implements FlightExtractorInterface
 {
     public function extractValue(FlightDecomposition $flight): float
     {
-        $timeLeft =  time() - $flight->getDepartureDate()->getTimestamp();
+        $timeLeft =  $flight->getDepartureDate()->getTimestamp() - time();
         return $timeLeft <= 0 ? 0 : $timeLeft / 3600;
     }
 }

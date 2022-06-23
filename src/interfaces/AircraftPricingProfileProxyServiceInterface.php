@@ -5,6 +5,7 @@ namespace ddd\pricing\interfaces;
 use ddd\pricing\entities\AircraftPricingCalculator;
 use ddd\pricing\entities\AircraftPricingProfile;
 use ddd\pricing\values\AircraftPricingCalculatorProperties;
+use ddd\pricing\values\AircraftPricingProfileID;
 use ddd\pricing\values\AircraftPricingProfileName;
 use ddd\pricing\values\AircraftPricingProfileProperties;
 
@@ -27,6 +28,12 @@ interface AircraftPricingProfileProxyServiceInterface
      * @return AircraftPricingProfile
      */
     public function createProfile(AircraftPricingProfileProperties $properties): AircraftPricingProfile;
+
+    /**
+     * @param AircraftPricingProfileID $id
+     * @return AircraftPricingProfile
+     */
+    public function getProfile(AircraftPricingProfileID $id): AircraftPricingProfile;
 
     /**
      * @param AircraftPricingCalculatorProperties $properties
