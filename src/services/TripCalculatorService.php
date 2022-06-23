@@ -36,7 +36,7 @@ final class TripCalculatorService
         $legsPrice = 0;
         $taxable = 0;
 
-        $calculators = iterator_to_array($this->helper->getActualCalculators($trip));
+        $calculators = iterator_to_array($this->helper->getActualCalculators($trip), false);
         /** @var AircraftPricingCalculator[] $tripCalculators */
         $tripCalculators = array_filter($calculators, fn(AircraftPricingCalculator $calculator) => $calculator->getProperties()->getType()->getValue() === AircraftPricingCalculatorType::TRIP);
         /** @var AircraftPricingCalculator[] $legCalculators */
