@@ -6,6 +6,7 @@ use ddd\pricing\interfaces\AircraftPricingProfileProxyServiceInterface;
 use ddd\pricing\entities\AircraftPricingCalculator;
 use ddd\pricing\entities\AircraftPricingProfile;
 use ddd\pricing\values\AircraftPricingCalculatorProperties;
+use ddd\pricing\values\AircraftPricingProfileID;
 use ddd\pricing\values\AircraftPricingProfileName;
 use ddd\pricing\values\AircraftPricingProfileProperties;
 
@@ -21,7 +22,7 @@ final class AircraftPricingProfileCacheDecorator implements AircraftPricingProfi
     public function getAvailableProfileNames(?AircraftPricingProfileName $name = null): array
     {
         return \Yii::$app->cache->getOrSet(
-            __CLASS__ . ':' . __METHOD__ . ':' . ($name ? ':' . $name->getValue() : ''),
+            __METHOD__ . ':' . ($name ? ':' . $name->getValue() : ''),
             fn() => $this->service->getAvailableProfileNames($name),
             10
         );
@@ -33,8 +34,21 @@ final class AircraftPricingProfileCacheDecorator implements AircraftPricingProfi
             return [];
 
         return \Yii::$app->cache->getOrSet(
-            __CLASS__ . ':' . __METHOD__ . ':' . implode(',', $ids),
+            __METHOD__ . ':' . implode(',', $ids),
             fn() => $this->service->getCalculatorsByProfilesIds($ids),
+            10
+        );
+    }
+
+    /**
+     * @param AircraftPricingProfileID $id
+     * @return AircraftPricingProfile
+     */
+    public function getProfile(AircraftPricingProfileID $id): AircraftPricingProfile
+    {
+        return \Yii::$app->cache->getOrSet(
+            __METHOD__ . ':' . $id->getValue(),
+            fn() => $this->service->getProfile($id),
             10
         );
     }
