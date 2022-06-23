@@ -18,6 +18,7 @@ final class AircraftPricingCalculatorUnit extends Enum
     const NIGHT_STOP = 'night_stop';
     const PARKING_DAYS = 'parking_days';
     const FUEL_STOPS = 'fuel_stops';
+    const FLIGHT_TTL = 'flight_ttl';
 
     // for trip
     const STARTUP = 'startup';
