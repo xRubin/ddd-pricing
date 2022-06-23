@@ -42,6 +42,7 @@ final class AircraftPricingBootstrap implements BootstrapInterface
                     'night_stop' => 'ddd\pricing\services\leg\extractors\FlightNightStopsCountExtractor',
                     'parking_days' => 'ddd\pricing\services\leg\extractors\FlightParkingDaysCountExtractor',
                     'fuel_stops' => 'ddd\pricing\services\leg\extractors\FlightFuelStopsCountExtractor',
+                    'flight_ttl' => 'ddd\pricing\services\leg\extractors\FlightTtlExtractor',
                 ]
             ],
             'ddd\pricing\services\trip\TripUnitExtractor' => [
